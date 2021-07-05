@@ -3,13 +3,13 @@ package com.company;
 public class command {
     String commandShortName;
     String commandFullName;
-    String[] arguments;
+    String argument;
 
-    public command(String commandFullName, String commandShortName, String[] arguments)
+    public command(String commandFullName, String commandShortName, String argument)
     {
         this.commandFullName = commandFullName;
         this.commandShortName = commandShortName;
-        this.arguments = arguments;
+        this.argument = argument;
     }
 
     public void setCommandShortName(String commandShortName)
@@ -30,20 +30,14 @@ public class command {
         else throw new IllegalArgumentException();
     }
 
-    public void setArguments(String[] arguments)
+    public void setArgument(String argument)
     {
-        this.arguments = arguments;
+        this.argument = argument;
     }
 
-    public void setArguments(String argument)
+    public String getArgument()
     {
-        this.arguments = new String[1];
-        this.arguments[0] = argument;
-    }
-
-    public String[] getArguments()
-    {
-        return arguments;
+        return argument;
     }
 
     public String getCommandShortName()

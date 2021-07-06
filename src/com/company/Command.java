@@ -1,11 +1,11 @@
 package com.company;
 
-public class command {
+public class Command {
     String commandShortName;
     String commandFullName;
     String argument;
 
-    public command(String commandFullName, String commandShortName, String argument)
+    public Command(String commandFullName, String commandShortName, String argument)
     {
         this.commandFullName = commandFullName;
         this.commandShortName = commandShortName;

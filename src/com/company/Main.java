@@ -1,23 +1,28 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
-    public static command[] initializeArgumentBase()
+    public static void printUsage() {
+        System.out.println("USAGE:\n--mode [-m] <ins | del | change> --file [-f] <fileName> --license [-l] <licenseFile> [--old [-o] <oldLicenseFileName>]");
+    }
+
+    public static Command[] initializeArgumentBase()
     {
-        command[] availableCommandsList = new command[5];
-        availableCommandsList[0] = new command("mode", "m", null);
-        availableCommandsList[1] = new command("file", "f", null);
-        availableCommandsList[2] = new command("license", "l", null);
-        availableCommandsList[3] = new command("old", "o", null);
-        availableCommandsList[4] = new command("help", "h", null);
+        Command[] availableCommandsList = new Command[5];
+        availableCommandsList[0] = new Command("mode", "m", null);
+        availableCommandsList[1] = new Command("file", "f", null);
+        availableCommandsList[2] = new Command("license", "l", null);
+        availableCommandsList[3] = new Command("old", "o", null);
+        availableCommandsList[4] = new Command("help", "h", null);
         return availableCommandsList;
     }
 
-    public static void printAvailableCommandsList(command[] commandList)
+    public static void printAvailableCommandsList(Command[] commandList)
     {
-        for (command cmd: commandList)
+        for (Command cmd: commandList)
         {
             if (cmd != null) {
                 System.out.println(cmd.getCommandFullName());
@@ -30,11 +35,11 @@ public class Main {
         }
     }
 
-    public static void checkCommands(ArrayList<command> commands, command[] controlCommandList)
+    public static void checkCommands(ArrayList<Command> commands, Command[] controlCommandList)
     {
         boolean commandFound = false;
         String commandText = "";
-        for (command cmd: commands) {
+        for (Command cmd: commands) {
             commandFound = false;
             if (cmd.getCommandFullName() != null) {
                 commandText = cmd.getCommandFullName();
@@ -42,7 +47,7 @@ public class Main {
             else if (cmd.getCommandShortName() != null) {
                 commandText = cmd.getCommandShortName();
             }
-            for (command controlCommand: controlCommandList) {
+            for (Command controlCommand: controlCommandList) {
                 if (controlCommand.getCommandFullName().equals(commandText) || controlCommand.getCommandShortName().equals(commandText)) {
                     commandFound = true;
                     break;
@@ -50,20 +55,21 @@ public class Main {
             }
             if (!commandFound) {
                 System.out.println("The arguments are specified incorrectly!\nCommand \"" + commandText + "\" is not expected.");
-                return;
+                printUsage();
+                System.exit(1);
             }
         }
     }
 
-    public static ArrayList<command> parseArguments(String[] args)
+    public static ArrayList<Command> parseArguments(String[] args)
     {
-        ArrayList<command> commands = new ArrayList<command>();
+        ArrayList<Command> commands = new ArrayList<Command>();
         for (String arg: args) {
             if (arg.contains("-") && !arg.contains("--")) {
-                commands.add(new command(null, arg.substring(1), null));
+                commands.add(new Command(null, arg.substring(1), null));
             }
             else if (arg.contains("--")) {
-                commands.add(new command(arg.substring(2), null, null));
+                commands.add(new Command(arg.substring(2), null, null));
             }
             else {
                 if (!commands.isEmpty()) {
@@ -71,15 +77,16 @@ public class Main {
                 }
                 else {
                     System.out.println("The arguments are specified incorrectly!");
-                    return null;
+                    printUsage();
+                    System.exit(1);
                 }
             }
         }
         return commands;
     }
 
-    public static command searchCommand(String shortName, String fullName, ArrayList<command> enteredCommands) {
-        for (command cmd: enteredCommands) {
+    public static Command searchCommand(String shortName, String fullName, ArrayList<Command> enteredCommands) {
+        for (Command cmd: enteredCommands) {
             if (cmd.getCommandShortName() != null && cmd.getCommandShortName().equals(shortName) || cmd.getCommandFullName() != null && cmd.getCommandFullName().equals(fullName)) {
                 return cmd;
             }
@@ -87,29 +94,51 @@ public class Main {
         return null;
     }
 
-    public static void main(String[] args) {
-        ArrayList<command> commands = parseArguments(args);
+    public static void main(String[] args) throws IOException {
+        ArrayList<Command> commands = parseArguments(args);
         checkCommands(commands, initializeArgumentBase());
 
-        licenseActions actions = new licenseActions();
-
-        command modeCommand = searchCommand("m", "mode", commands);
+        Command modeCommand = searchCommand("m", "mode", commands);
         if (modeCommand != null) {
+            Command fileCommand = searchCommand("f", "file", commands);
+            if (fileCommand == null) {
+                System.out.println("Command \"file\" not set!");
+                printUsage();
+                return;
+            }
+
+            Command licenseFileCommand = searchCommand("l", "license", commands);
+            if (licenseFileCommand == null) {
+                System.out.println("Command \"license\" not set!");
+                printUsage();
+                return;
+            }
+
             switch (modeCommand.getArgument()) {
                 case ("ins"):
-                    System.out.println("insert command selected");
+                    LicenseActions.insertLicenseInfo(fileCommand.getArgument(), licenseFileCommand.getArgument());
                     break;
                 case ("del"):
-                    System.out.println("delete command selected");
+                    LicenseActions.deleteLicenseInfo(fileCommand.getArgument(), licenseFileCommand.getArgument());
                     break;
                 case ("change"):
-                    System.out.println("change command selected");
+                    Command oldLicenseFileCommand = searchCommand("o", "old", commands);
+                    if (oldLicenseFileCommand == null) {
+                        System.out.println("Command \"old\" not set!");
+                        printUsage();
+                        return;
+                    }
+                    LicenseActions.replaceLicenseInfo(fileCommand.getArgument(), oldLicenseFileCommand.getArgument(), licenseFileCommand.getArgument());
                     break;
+                default:
+                    System.out.println("Command \"mode\" set incorrectly!");
+                    printUsage();
             }
         }
         else {
-            System.out.println("mode-command not set!");
-            return;
+            System.out.println("Command \"mode\" not set!");
+            printUsage();
+            System.exit(1);
         }
     }
 }

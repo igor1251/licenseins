@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fee49258-8277-4b5f-bf9e-5e966269134a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/company/licenseActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/licenseins/com/company/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/licenseins/com/company/Command.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/licenseins/com/company/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/licenseins/com/company/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/licenseins/com/company/licenseActions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/licenseins/com/company/licenseActions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/licenseActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/LicenseActions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +104,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.company.Main" />
       <module name="licenseins" />
+      <option name="PROGRAM_PARAMETERS" value="-m change -f D:\Libraries\Documents\MainForm.cs -l D:\Libraries\Documents\newlicense.txt -o D:\Libraries\Documents\license.txt" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">

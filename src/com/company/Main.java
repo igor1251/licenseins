@@ -95,6 +95,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            printUsage();
+            System.exit(0);
+        }
+
         ArrayList<Command> commands = parseArguments(args);
         checkCommands(commands, initializeArgumentBase());
 

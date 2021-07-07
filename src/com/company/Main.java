@@ -111,10 +111,20 @@ public class Main {
                 printUsage();
                 return;
             }
+            else if (fileCommand.getArgument() == null) {
+                System.out.println("Invalid argument for command \"file\"!");
+                printUsage();
+                return;
+            }
 
             Command licenseFileCommand = searchCommand("l", "license", commands);
             if (licenseFileCommand == null) {
                 System.out.println("Command \"license\" not set!");
+                printUsage();
+                return;
+            }
+            else if (licenseFileCommand.getArgument() == null) {
+                System.out.println("Invalid argument for command \"license\"!");
                 printUsage();
                 return;
             }
@@ -130,6 +140,11 @@ public class Main {
                     Command oldLicenseFileCommand = searchCommand("o", "old", commands);
                     if (oldLicenseFileCommand == null) {
                         System.out.println("Command \"old\" not set!");
+                        printUsage();
+                        return;
+                    }
+                    else if (oldLicenseFileCommand.getArgument() == null) {
+                        System.out.println("Invalid argument for command \"old\" not set!");
                         printUsage();
                         return;
                     }
